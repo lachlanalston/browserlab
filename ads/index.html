@@ -4,48 +4,64 @@
     <meta charset="UTF-8">
     <title>Ad-heavy Demo Page</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
-        h1 { color: #333; text-align: center; }
-        .ad { 
-            border: 2px solid #ccc; 
-            padding: 20px; 
-            margin: 20px auto; 
-            width: 80%; 
-            text-align: center; 
-            background: #fff3cd; 
-            color: #856404; 
-            font-weight: bold;
+        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
+        h1 { text-align: center; padding: 30px; color: #333; }
+        .ad {
+            border: 2px solid #ccc;
+            background: #fff;
+            margin: 20px auto;
+            width: 80%;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .content { 
-            width: 80%; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background: #ffffff; 
-            border: 1px solid #ddd; 
+        .ad img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        .ad-caption { margin-top: 10px; font-weight: bold; color: #d32f2f; }
+        .content {
+            width: 80%;
+            margin: 0 auto 20px;
+            padding: 20px;
+            background: #ffffff;
+            border: 1px solid #ddd;
         }
-        a { color: #1976d2; text-decoration: none; font-weight: bold; }
+        a { color: #1976d2; text-decoration: none; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Ad-heavy Demo Page</h1>
 
-    <div class="ad">⚠ Sponsored Ad: Buy Now!</div>
-    <div class="content">
-        <p>This is the main content of the page. Notice how the ads distract users.</p>
+    <!-- Ad Block 1 -->
+    <div class="ad">
+        <img src="images/ad1.jpg" alt="Ad Banner 1">
+        <div class="ad-caption">Sponsored: Buy Now!</div>
     </div>
 
-    <div class="ad">⚠ Sponsored Ad: Click Here!</div>
     <div class="content">
-        <p>More content to simulate a real ad-heavy website. Useful for browser behavior testing.</p>
+        <p>This is page content between ads. Ads dominate the page layout and distract users.</p>
     </div>
 
-    <div class="ad">⚠ Sponsored Ad: Limited Offer!</div>
-    <div class="content">
-        <p>Even more content and ads. Perfect for IT training and testing ad blockers or browser security behavior.</p>
+    <!-- Ad Block 2 -->
+    <div class="ad">
+        <img src="images/ad2.jpg" alt="Ad Banner 2">
+        <div class="ad-caption">Sponsored: Click Here!</div>
     </div>
 
-    <p style="text-align: center; margin-top: 40px;">
+    <div class="content">
+        <p>More content between ads. Useful for IT training, testing browser ad behavior.</p>
+    </div>
+
+    <!-- Ad Block 3 -->
+    <div class="ad">
+        <img src="images/ad3.jpg" alt="Ad Banner 3">
+        <div class="ad-caption">Sponsored: Limited Offer!</div>
+    </div>
+
+    <div class="content">
+        <p>Even more content between ads. Perfect for demonstrating ad-heavy sites in IT labs.</p>
+    </div>
+
+    <p style="text-align: center; margin: 40px 0;">
         <a href="/">Return to Main Site</a>
     </p>
 </body>
