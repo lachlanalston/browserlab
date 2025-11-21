@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <title>BrowserLab.au</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 50px; background: #f4f4f4; }
-        h1 { color: #333; font-size: 3em; }
-        p { font-size: 1.2em; }
-        ul { list-style-type: none; padding: 0; }
+        body { font-family: Arial, sans-serif; padding: 50px; background: #f4f4f4; text-align: center; }
+        h1 { color: #333; font-size: 3em; margin-bottom: 20px; }
+        p { font-size: 1.2em; margin-bottom: 40px; }
+        ul { list-style-type: none; padding: 0; max-width: 400px; margin: 0 auto; }
         li { margin: 15px 0; }
-        a { color: #1976d2; text-decoration: none; font-weight: bold; }
+        a { color: #1976d2; text-decoration: none; font-weight: bold; font-size: 1.1em; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <h1>Welcome to BrowserLab.au</h1>
-    <p>This is a secure IT testing and training site. Choose a demo below:</p>
+    <p>Your IT training and web security demo environment</p>
+
     <ul>
-        <li><a href="/insecure/">Insecure Website Demo</a></li>
-        <li><a href="/mixed/">Mixed Content Demo (coming soon)</a></li>
-        <li><a href="/ads/">Ad-heavy Demo (coming soon)</a></li>
-        <li><a href="/login/">Training Login Demo (coming soon)</a></li>
+        <li>
+            <!-- Subdomain for real browser warning -->
+            <a href="https://insecure.browserlab.au" target="_blank">Insecure Website Demo</a>
+        </li>
+        <li>
+            <a href="/ads/">Ad-heavy Demo (coming soon)</a>
+        </li>
     </ul>
+
+    <p style="margin-top: 60px; font-size: 0.9em; color: #555;">
+        All demos are for IT training purposes only. Do not enter real credentials on insecure pages.
+    </p>
 </body>
 </html>
