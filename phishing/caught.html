@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You were phished — Training Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 680px;
+            width: 100%;
+        }
+        .hook {
+            background: #c00;
+            padding: 28px 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hook .icon { font-size: 48px; margin-bottom: 12px; }
+        .hook h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .hook p { font-size: 16px; opacity: 0.9; }
+        .section {
+            background: #2a2a2a;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e67e22;
+        }
+        .section h2 { font-size: 16px; font-weight: 600; color: #e67e22; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section ul { list-style: none; padding: 0; }
+        .section ul li {
+            padding: 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-bottom: 1px solid #333;
+        }
+        .section ul li:last-child { border-bottom: none; }
+        .flag { color: #e74c3c; font-weight: 600; }
+        .good { color: #2ecc71; font-weight: 600; }
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .compare-box {
+            padding: 14px;
+            border-radius: 3px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .compare-bad { background: #3d1515; border: 1px solid #c00; }
+        .compare-good { background: #153d15; border: 1px solid #2ecc71; }
+        .compare-box .label { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .compare-bad .label { color: #e74c3c; }
+        .compare-good .label { color: #2ecc71; }
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e67e22;
+        }
+        .steps {
+            counter-reset: step;
+        }
+        .steps li {
+            counter-increment: step;
+            padding-left: 32px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 6px;
+            background: #e67e22;
+            color: #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back {
+            display: inline-block;
+            margin-top: 24px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hook">
+        <div class="icon">&#x1F41F;</div>
+        <h1>You were phished.</h1>
+        <p>Your credentials would have been sent to an attacker. No real data was captured — this is a training demo.</p>
+    </div>
+
+    <div class="section">
+        <h2>Red flags on that page</h2>
+        <ul>
+            <li><span class="flag">Wrong URL</span> — page was at <code>browserlab.au/phishing/</code>, not <code>login.microsoft.com</code></li>
+            <li><span class="flag">Unsolicited</span> — you received a link out of nowhere via email, SMS, or QR code</li>
+            <li><span class="flag">Urgency</span> — phishing messages say "act now", "account suspended", "verify immediately"</li>
+            <li><span class="flag">Lookalike domain</span> — attackers use <code>micros0ft.com</code>, <code>login-microsoft.com</code>, <code>microsoft-login.xyz</code></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Real vs fake — URL comparison</h2>
+        <div class="compare">
+            <div class="compare-box compare-bad">
+                <div class="label">Fake (this page)</div>
+                <code>browserlab.au/phishing/</code><br><br>
+                Wrong domain entirely. Nothing about this is Microsoft.
+            </div>
+            <div class="compare-box compare-good">
+                <div class="label">Real Microsoft login</div>
+                <code>login.microsoftonline.com</code><br><br>
+                Padlock present. Microsoft-owned domain. No subpaths.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>What to do if you clicked a real phishing link</h2>
+        <ul class="steps">
+            <li>Do not enter any credentials — close the tab immediately</li>
+            <li>If you entered credentials, change that password right now from a known-safe device</li>
+            <li>Enable MFA on the account if not already enabled</li>
+            <li>Report to your IT team — they may need to check login logs</li>
+            <li>Run a malware scan if you clicked a download link</li>
+        </ul>
+    </div>
+
+    <a href="/" class="back">&larr; Back to BrowserLab</a>
+</div>
+</body>
+</html>

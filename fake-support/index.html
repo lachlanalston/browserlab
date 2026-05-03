@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Security Alert</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #000080;
+            color: #fff;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Fake desktop background */
+        .desktop {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0078d7 0%, #004c99 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fullscreen alert overlay */
+        #alert-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.88);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadein 0.3s ease;
+        }
+        @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+        .alert-window {
+            background: #1a1a1a;
+            border: 2px solid #e00;
+            max-width: 680px;
+            width: 92%;
+            box-shadow: 0 0 60px rgba(220,0,0,0.5);
+        }
+        .alert-titlebar {
+            background: #c00;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .alert-titlebar .warning-icon { font-size: 18px; }
+        .alert-body { padding: 28px 28px 24px; }
+
+        .main-warning {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .main-warning .big-icon { font-size: 56px; margin-bottom: 12px; }
+        .main-warning h1 { font-size: 22px; color: #ff4444; margin-bottom: 8px; font-weight: 700; }
+        .main-warning p { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+        .threat-list {
+            background: #0d0d0d;
+            border: 1px solid #333;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .threat-list .list-header {
+            font-size: 12px;
+            color: #e67e22;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        .threat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #222;
+            font-size: 13px;
+        }
+        .threat-item:last-child { border-bottom: none; }
+        .threat-name { color: #ff6b6b; font-family: 'Courier New', monospace; }
+        .threat-status { color: #ff4444; font-weight: 700; font-size: 12px; }
+
+        .scan-bar-wrap {
+            margin-bottom: 20px;
+        }
+        .scan-bar-label { font-size: 12px; color: #aaa; margin-bottom: 6px; }
+        .scan-bar-outer { background: #0d0d0d; border: 1px solid #333; height: 14px; }
+        .scan-bar-inner {
+            background: linear-gradient(90deg, #e00, #ff6b00);
+            height: 100%;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .call-box {
+            background: #c00;
+            padding: 16px 20px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .call-box .call-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; opacity: 0.85; }
+        .call-box .phone { font-size: 28px; font-weight: 700; letter-spacing: 2px; }
+        .call-box .call-sub { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+
+        .footer-text { font-size: 11px; color: #666; text-align: center; line-height: 1.6; }
+
+        /* Blinking effect */
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+        .blink { animation: blink 1s infinite; }
+
+        /* Training button */
+        #training-btn {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+        #training-btn:hover { opacity: 1; background: rgba(255,255,255,0.25); }
+
+        #training-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+        }
+        #training-overlay.show { display: flex; }
+        .training-box {
+            background: #fff;
+            color: #1a1a1a;
+            padding: 36px;
+            max-width: 580px;
+            width: 90%;
+            border-radius: 4px;
+        }
+        .training-box h2 { color: #c00; margin-bottom: 16px; font-size: 20px; }
+        .training-box ul { margin: 12px 0 20px 20px; line-height: 2; font-size: 14px; }
+        .dismiss-row { display: flex; gap: 12px; }
+        .training-box .close-btn {
+            background: #0067b8;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .training-box .dismiss-demo-btn {
+            background: #555;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="desktop">
+    <div id="alert-overlay">
+        <div class="alert-window">
+            <div class="alert-titlebar">
+                <span class="warning-icon">&#x26A0;</span>
+                Windows Security Alert — Immediate Action Required
+                <span class="blink" style="margin-left:auto; font-size:12px;">&#x25CF; LIVE</span>
+            </div>
+            <div class="alert-body">
+                <div class="main-warning">
+                    <div class="big-icon blink">&#x26D4;</div>
+                    <h1>YOUR COMPUTER IS INFECTED</h1>
+                    <p>Microsoft has detected <strong id="threat-count">4</strong> critical threats on your system. Your personal data, banking information, and passwords are at risk. Do not close this window.</p>
+                </div>
+
+                <div class="threat-list">
+                    <div class="list-header">Detected threats</div>
+                    <div class="threat-item">
+                        <span class="threat-name">Trojan:Win32/Wacatac.B!ml</span>
+                        <span class="threat-status">CRITICAL</span>
+                    </div>
+                    <div class="threat-item">
+                        <span class="threat-name">Spyware:Win32/Keylogger.gen</span>
+                        <span class="threat-status">CRITICAL</span>
+                    </div>
+                    <div class="threat-item">
+                        <span class="threat-name">Adware:Win32/Coupons</span>
+                        <span class="threat-status">HIGH</span>
+                    </div>
+                    <div class="threat-item">
+                        <span class="threat-name">PUP:Win32/BrowserHijack</span>
+                        <span class="threat-status">HIGH</span>
+                    </div>
+                </div>
+
+                <div class="scan-bar-wrap">
+                    <div class="scan-bar-label">Scanning system files... <span id="scan-pct">0</span>%</div>
+                    <div class="scan-bar-outer">
+                        <div class="scan-bar-inner" id="scan-bar"></div>
+                    </div>
+                </div>
+
+                <div class="call-box">
+                    <div class="call-label">Call Microsoft Support immediately</div>
+                    <div class="phone">1800-FAKE-IT</div>
+                    <div class="call-sub">Toll free &bull; Available 24/7 &bull; Do not hang up</div>
+                </div>
+
+                <p class="footer-text">
+                    Windows Defender &bull; Microsoft Corporation &bull; Error Code: 0x80073b01<br>
+                    Do not restart your computer. Your system will be permanently damaged if this window is closed.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="training-btn" onclick="document.getElementById('training-overlay').classList.add('show')" title="Training info">?</button>
+
+<div id="training-overlay">
+    <div class="training-box">
+        <h2>Training Demo — Fake Tech Support Scam</h2>
+        <p style="font-size:14px; margin-bottom:8px;"><strong>This is a fake "Your computer is infected" scam page.</strong> No scan happened. Here's what gives it away:</p>
+        <ul>
+            <li><strong>Microsoft never calls you</strong> — nor does it show phone numbers in browser alerts</li>
+            <li><strong>Browsers can't scan your PC</strong> — the "threat list" is fabricated</li>
+            <li><strong>"Do not close this window"</strong> — pressure tactic to stop you thinking clearly</li>
+            <li><strong>Phone number is fake</strong> — real number would connect to scammers who charge for "removal"</li>
+            <li><strong>Fix:</strong> Close the browser tab. Press F11 to exit fullscreen if stuck. Run a real scan via Windows Security (the built-in app)</li>
+        </ul>
+        <div class="dismiss-row">
+            <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close overlay</button>
+            <button class="dismiss-demo-btn" onclick="window.location.href='/'">Exit demo</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fake scanning animation
+    let pct = 0;
+    const bar = document.getElementById('scan-bar');
+    const pctLabel = document.getElementById('scan-pct');
+    const interval = setInterval(() => {
+        const step = Math.random() * 1.5 + 0.2;
+        pct = Math.min(pct + step, 97);
+        bar.style.width = pct + '%';
+        pctLabel.textContent = Math.floor(pct);
+        if (pct >= 97) clearInterval(interval);
+    }, 80);
+
+    // Block right-click (scammers do this)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Block F5 / Ctrl+R (common scam tactic) — but allow F11 and Escape for training
+    document.addEventListener('keydown', e => {
+        if ((e.key === 'F5') || (e.ctrlKey && e.key === 'r')) e.preventDefault();
+        if (e.key === 'Escape' || e.key === 'F11') {
+            document.getElementById('training-overlay').classList.add('show');
+        }
+    });
+</script>
+
+</body>
+</html>

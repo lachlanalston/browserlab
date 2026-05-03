@@ -2,67 +2,439 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ad-heavy Demo Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 10 Budget Travel Tips for 2024!</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
-        h1 { text-align: center; padding: 30px; color: #333; }
-        .ad {
-            border: 2px solid #ccc;
-            background: #fff;
-            margin: 20px auto;
-            width: 80%;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f0f0; font-size: 15px; }
+
+        /* Sticky top banner ad */
+        #sticky-top {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: #ffeb3b;
+            border-bottom: 2px solid #f9a825;
             text-align: center;
             padding: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 500;
+            font-size: 14px;
+            font-weight: bold;
         }
-        .ad img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        .ad-caption { margin-top: 10px; font-weight: bold; color: #d32f2f; }
-        .content {
-            width: 80%;
-            margin: 0 auto 20px;
-            padding: 20px;
-            background: #ffffff;
+        #sticky-top a { color: #c00; text-decoration: none; font-size: 15px; }
+        #sticky-top .close-x {
+            position: absolute;
+            right: 12px; top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #555;
+        }
+
+        /* Layout */
+        .page-wrap { padding-top: 52px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 280px; gap: 0; }
+        .main-col { padding: 20px 16px; }
+        .sidebar { padding: 20px 12px; border-left: 1px solid #ddd; background: #f9f9f9; }
+
+        /* Content */
+        .article-header { margin-bottom: 16px; }
+        .article-header h1 { font-size: 26px; line-height: 1.3; margin-bottom: 8px; color: #1a1a1a; }
+        .meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+        .article-body p { line-height: 1.7; color: #333; margin-bottom: 14px; font-size: 15px; }
+
+        /* Inline ad */
+        .inline-ad {
+            border: 1px solid #ccc;
+            background: #fff;
+            padding: 0;
+            margin: 20px 0;
+            position: relative;
+            text-align: center;
+        }
+        .inline-ad .ad-label {
+            font-size: 10px;
+            color: #999;
+            text-align: right;
+            padding: 2px 6px;
+            background: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        .inline-ad .ad-inner { padding: 14px; }
+        .inline-ad img { max-width: 100%; display: block; margin: 0 auto 8px; }
+        .ad-cta {
+            display: inline-block;
+            background: #e53935;
+            color: #fff;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .ad-cta:hover { background: #b71c1c; }
+
+        /* "Recommended" content ads (taboola-style) */
+        .content-reco {
+            border-top: 2px solid #ddd;
+            margin-top: 24px;
+            padding-top: 16px;
+        }
+        .content-reco h3 { font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .reco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .reco-item {
+            background: #fff;
             border: 1px solid #ddd;
+            cursor: pointer;
+            overflow: hidden;
         }
-        a { color: #1976d2; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .reco-item:hover { border-color: #aaa; }
+        .reco-item .reco-img {
+            width: 100%;
+            height: 90px;
+            background: linear-gradient(135deg, #e0e0e0, #bbb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .reco-item .reco-text { padding: 8px; font-size: 12px; color: #333; line-height: 1.4; }
+        .reco-item .reco-source { font-size: 11px; color: #999; margin-top: 4px; }
+
+        /* Sidebar ads */
+        .sidebar-ad {
+            border: 1px solid #ccc;
+            background: #fff;
+            margin-bottom: 16px;
+            text-align: center;
+            position: relative;
+        }
+        .sidebar-ad .ad-label { font-size: 10px; color: #999; padding: 2px 6px; text-align: right; background: #f9f9f9; border-bottom: 1px solid #eee; }
+        .sidebar-ad .ad-inner { padding: 12px 10px; }
+        .sidebar-ad .ad-inner p { font-size: 13px; margin-bottom: 8px; color: #333; line-height: 1.4; }
+        .sidebar-ad .ad-inner strong { color: #e53935; }
+
+        /* Fake cookie banner */
+        #cookie-banner {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #222;
+            color: #fff;
+            padding: 14px 20px;
+            z-index: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+        #cookie-banner p { flex: 1; min-width: 200px; opacity: 0.9; line-height: 1.5; }
+        .cookie-btn-accept {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .cookie-btn-reject {
+            background: transparent;
+            color: #aaa;
+            border: 1px solid #555;
+            padding: 10px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        .cookie-btn-accept:hover { background: #1565c0; }
+
+        /* Popup overlay */
+        #popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 800;
+            align-items: center;
+            justify-content: center;
+        }
+        #popup-overlay.show { display: flex; }
+        .popup-box {
+            background: #fff;
+            max-width: 460px;
+            width: 90%;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .popup-header {
+            background: linear-gradient(90deg, #e53935, #ff7043);
+            padding: 16px 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .popup-header h2 { font-size: 18px; }
+        .popup-body { padding: 24px; text-align: center; }
+        .popup-body .prize-icon { font-size: 56px; margin-bottom: 12px; }
+        .popup-body h3 { font-size: 20px; margin-bottom: 8px; color: #1a1a1a; }
+        .popup-body p { font-size: 13px; color: #555; margin-bottom: 20px; line-height: 1.6; }
+        .popup-cta {
+            display: block;
+            width: 100%;
+            background: #43a047;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        .popup-cta:hover { background: #388e3c; }
+        .popup-skip { font-size: 12px; color: #999; text-decoration: underline; cursor: pointer; display: block; }
+        .popup-close-x { cursor: pointer; font-size: 20px; line-height: 1; }
+
+        /* Training button */
+        #training-btn {
+            position: fixed;
+            bottom: 60px;
+            right: 16px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+        #training-btn:hover { opacity: 1; }
+        #training-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #training-overlay.show { display: flex; }
+        .training-box {
+            background: #fff;
+            padding: 36px;
+            max-width: 560px;
+            width: 90%;
+            border-radius: 4px;
+        }
+        .training-box h2 { color: #c00; margin-bottom: 16px; font-size: 20px; }
+        .training-box ul { margin: 12px 0 20px 20px; line-height: 2; font-size: 14px; }
+        .training-box .close-btn {
+            background: #0067b8;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <h1>Ad-heavy Demo Page</h1>
 
-    <!-- Ad Block 1 -->
-    <div class="ad">
-        <img src="ad1.jpeg" alt="Ad Banner 1">
-        <div class="ad-caption">Sponsored: Buy Now!</div>
+<!-- Sticky top banner ad -->
+<div id="sticky-top">
+    &#x1F525; <a href="#">YOU'VE BEEN SELECTED — Claim your $500 gift card before midnight!</a>
+    <span class="close-x" onclick="this.parentElement.style.display='none'">&times;</span>
+</div>
+
+<div class="page-wrap">
+    <!-- Main content column -->
+    <div class="main-col">
+        <div class="article-header">
+            <h1>Top 10 Budget Travel Tips That Will Change How You See the World</h1>
+            <div class="meta">By Sarah Mitchell &bull; 4 min read &bull; 12,847 views</div>
+        </div>
+
+        <!-- Inline ad 1 -->
+        <div class="inline-ad">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-inner">
+                <img src="images/ad1.jpeg" alt="Advertisement">
+                <p style="font-size:14px; margin-bottom:8px; font-weight:bold; color:#e53935;">Doctors HATE this one simple trick!</p>
+                <a class="ad-cta" href="#">Click here to find out more &rsaquo;</a>
+            </div>
+        </div>
+
+        <div class="article-body">
+            <p>Travelling on a budget doesn't mean sacrificing experience. With the right strategies, you can explore incredible destinations without emptying your savings account. Here are ten tips seasoned travellers swear by.</p>
+            <p><strong>1. Book flights on Tuesdays</strong> — airlines reportedly release discounted seats midweek when demand drops. Use incognito mode to avoid dynamic pricing cookies.</p>
+            <p><strong>2. Stay in local guesthouses</strong> — skip chain hotels and use local booking platforms. You'll pay a fraction of the price and get a more authentic experience.</p>
+        </div>
+
+        <!-- Inline ad 2 -->
+        <div class="inline-ad">
+            <div class="ad-label">Sponsored Content</div>
+            <div class="ad-inner">
+                <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-bottom:6px;">&#x26A0;&#xFE0F; Your Internet Provider May Be Throttling Your Speed</p>
+                <p style="font-size:13px; color:#555; margin-bottom:12px;">Thousands of Australians are switching to this new VPN that bypasses speed limits. <strong>Try free for 30 days.</strong></p>
+                <a class="ad-cta" href="#">Check My Speed Now &rsaquo;</a>
+            </div>
+        </div>
+
+        <div class="article-body">
+            <p><strong>3. Use travel credit cards wisely</strong> — many cards offer sign-up bonuses worth hundreds in flights if you meet the minimum spend requirement in the first three months.</p>
+            <p><strong>4. Travel shoulder season</strong> — the weeks just before and after peak season offer near-identical weather with significantly reduced crowds and prices.</p>
+            <p><strong>5. Eat where locals eat</strong> — tourist menus charge a premium. Walk two streets away from the main square and prices often drop by 40–60%.</p>
+        </div>
+
+        <!-- Inline ad 3 -->
+        <div class="inline-ad">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-inner">
+                <p style="font-size:15px; font-weight:bold; color:#e53935; margin-bottom:6px;">&#x1F6A8; URGENT: Your PC has 3 viruses!</p>
+                <p style="font-size:13px; color:#555; margin-bottom:12px;">Free scan reveals threats hiding on your computer right now. Download our #1 rated cleaner today.</p>
+                <a class="ad-cta" href="#">Scan Now — Free &rsaquo;</a>
+            </div>
+        </div>
+
+        <div class="article-body">
+            <p><strong>6–10:</strong> Pack light to avoid check-in fees, use city transit cards over taxis, book accommodations with free cancellation, travel with a reusable water bottle, and always carry local currency for smaller vendors who don't take cards.</p>
+        </div>
+
+        <!-- Outbrain/Taboola style recommended content -->
+        <div class="content-reco">
+            <h3>Recommended for you</h3>
+            <div class="reco-grid">
+                <div class="reco-item">
+                    <div class="reco-img">&#x1F4B0;</div>
+                    <div class="reco-text">Retirees: Banks don't want you to know about this savings loophole<div class="reco-source">FinanceTips.co</div></div>
+                </div>
+                <div class="reco-item">
+                    <div class="reco-img">&#x1F48A;</div>
+                    <div class="reco-text">This $9 trick cured my joint pain after 20 years (doctors stunned)<div class="reco-source">HealthBuzz.net</div></div>
+                </div>
+                <div class="reco-item">
+                    <div class="reco-img">&#x1F3E0;</div>
+                    <div class="reco-text">Home worth $600k? Refinance and get $2,000 cash back today<div class="reco-source">LoanRates.au</div></div>
+                </div>
+                <div class="reco-item">
+                    <div class="reco-img">&#x1F4F1;</div>
+                    <div class="reco-text">Telstra customers: Check if you're owed a refund from this class action<div class="reco-source">ConsumerAlert.au</div></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="content">
-        <p>This is page content between ads. Ads dominate the page layout and distract users.</p>
-    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-ad">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-inner">
+                <p style="font-size:16px;">&#x1F3C6;</p>
+                <p><strong>Congratulations!</strong><br>You are today's <strong style="color:#e53935;">selected visitor.</strong></p>
+                <p style="font-size:12px; color:#555; margin:8px 0;">Claim your prize before the timer runs out!</p>
+                <p style="font-size:20px; font-weight:bold; color:#e53935;" id="countdown">09:59</p>
+                <a class="ad-cta" href="#" style="margin-top:10px; display:block;">Claim Prize &rsaquo;</a>
+            </div>
+        </div>
 
-    <!-- Ad Block 2 -->
-    <div class="ad">
-        <img src="ad1.jpeg" alt="Ad Banner 2">
-        <div class="ad-caption">Sponsored: Click Here!</div>
-    </div>
+        <div class="sidebar-ad">
+            <div class="ad-label">Sponsored</div>
+            <div class="ad-inner">
+                <p style="font-weight:bold; margin-bottom:6px;">Singles near you are waiting!</p>
+                <p style="font-size:12px; color:#555; margin-bottom:10px;">3,847 members joined this week in your area.</p>
+                <a class="ad-cta" href="#">View Profiles &rsaquo;</a>
+            </div>
+        </div>
 
-    <div class="content">
-        <p>More content between ads. Useful for IT training, testing browser ad behavior.</p>
+        <div class="sidebar-ad">
+            <div class="ad-label">Advertisement</div>
+            <div class="ad-inner">
+                <img src="images/ad1.jpeg" alt="Ad" style="max-width:100%; margin-bottom:8px;">
+                <p style="font-size:13px; margin-bottom:8px;">Limited time offer — ends tonight at midnight!</p>
+                <a class="ad-cta" href="#">Shop Now &rsaquo;</a>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- Ad Block 3 -->
-    <div class="ad">
-        <img src="ad1.jpeg" alt="Ad Banner 3">
-        <div class="ad-caption">Sponsored: Limited Offer!</div>
+<!-- Cookie consent banner -->
+<div id="cookie-banner">
+    <p>We use cookies and similar tracking technologies to personalize content, target ads, and analyse traffic. By clicking "Accept All" you consent to our use of cookies, including sharing your data with 47 advertising partners.</p>
+    <button class="cookie-btn-accept" onclick="acceptCookies()">Accept All</button>
+    <button class="cookie-btn-reject" onclick="document.getElementById('cookie-banner').style.display='none'">Reject (limited experience)</button>
+</div>
+
+<!-- Popup (fires after 3 seconds) -->
+<div id="popup-overlay">
+    <div class="popup-box">
+        <div class="popup-header">
+            <h2>&#x1F389; Congratulations!</h2>
+            <span class="popup-close-x" onclick="closePopup()">&times;</span>
+        </div>
+        <div class="popup-body">
+            <div class="prize-icon">&#x1F3C6;</div>
+            <h3>You've won an iPhone 15!</h3>
+            <p>You are the 1,000,000th visitor to this site! Click below to claim your free iPhone 15 Pro. Offer expires in 4 minutes. Only 1 prize available per IP address.</p>
+            <button class="popup-cta" onclick="closePopup()">CLAIM MY FREE iPHONE &rsaquo;</button>
+            <span class="popup-skip" onclick="closePopup()">No thanks, I don't want a free iPhone</span>
+        </div>
     </div>
+</div>
 
-    <div class="content">
-        <p>Even more content between ads. Perfect for demonstrating ad-heavy sites in IT labs.</p>
+<button id="training-btn" onclick="document.getElementById('training-overlay').classList.add('show')" title="Training info">?</button>
+
+<div id="training-overlay">
+    <div class="training-box">
+        <h2>Training Demo — Ad-Heavy &amp; Deceptive Website</h2>
+        <p style="font-size:14px; margin-bottom:8px;"><strong>This page simulates a deceptive ad-heavy website.</strong> Patterns to identify:</p>
+        <ul>
+            <li><strong>Prize popups</strong> — "1,000,000th visitor" prizes are always fake</li>
+            <li><strong>Countdown timers</strong> — fake urgency, countdown resets on reload</li>
+            <li><strong>Fake virus warnings in ads</strong> — browsers can't detect viruses in ad banners</li>
+            <li><strong>Misleading cookie consent</strong> — "Reject" is styled to be hard to find</li>
+            <li><strong>Clickbait recommended content</strong> — "Doctors hate this" = scam signals</li>
+            <li><strong>Sticky/stacked ads</strong> — designed to obscure real content and get accidental clicks</li>
+        </ul>
+        <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close</button>
     </div>
+</div>
 
-    <p style="text-align: center; margin: 40px 0;">
-        <a href="/">Return to Main Site</a>
-    </p>
+<script>
+    // Show popup after 3 seconds
+    setTimeout(() => document.getElementById('popup-overlay').classList.add('show'), 3000);
+
+    function closePopup() {
+        document.getElementById('popup-overlay').classList.remove('show');
+    }
+
+    function acceptCookies() {
+        document.getElementById('cookie-banner').style.display = 'none';
+        // Show a second popup after accepting cookies (dark pattern: accepting triggers more ads)
+        setTimeout(() => {
+            document.getElementById('popup-overlay').classList.add('show');
+        }, 1500);
+    }
+
+    // Fake countdown timer
+    let secs = 9 * 60 + 59;
+    const countdownEl = document.getElementById('countdown');
+    setInterval(() => {
+        if (secs <= 0) secs = 9 * 60 + 59; // reset (fake urgency)
+        secs--;
+        const m = String(Math.floor(secs / 60)).padStart(2, '0');
+        const s = String(secs % 60).padStart(2, '0');
+        countdownEl.textContent = `${m}:${s}`;
+    }, 1000);
+</script>
+
 </body>
 </html>
