@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrowserLab.au — Security Awareness Demos</title>
+    <title>BrowserLab.au — Security Simulation Center</title>
     <style>
+        /* =========================================== */
+        /* CSS STYLES (Leave this section alone!)       */
+        /* =========================================== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0f1923;
+            background: #0f1923; /* Dark background */
             color: #e0e0e0;
             min-height: 100vh;
             display: flex;
@@ -16,138 +20,192 @@
             align-items: center;
             padding: 60px 20px 40px;
         }
-        .logo { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #4a90d4; margin-bottom: 12px; }
-        h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; text-align: center; }
-        .tagline { font-size: 15px; color: #7a9ab8; margin-bottom: 48px; text-align: center; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            max-width: 900px;
-            width: 100%;
-            margin-bottom: 48px;
+        .logo {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #4a90d4; /* Blue logo color */
+            margin-bottom: 12px;
         }
-        .card {
-            background: #1a2a3a;
-            border: 1px solid #1e3a55;
-            border-radius: 6px;
-            padding: 24px;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: border-color 0.15s, background 0.15s;
-            position: relative;
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center;
         }
-        .card:hover { border-color: #4a90d4; background: #1e3045; }
+
+        /* New container for structured info */
+        .tagline-container { 
+            padding: 20px 0 30px; /* Added top padding */
+            max-width: 900px; 
+            text-align: center; 
+        }
+        
+        /* Style for the descriptive paragraph (The main message) */
+        .tagline-container p { 
+            font-size: 16px; 
+            color: #7a9ab8; /* Soft blue/grey text */
+            margin-bottom: 15px; 
+            line-height: 1.6; 
+        }
+
+        /* Style for the bulleted list within the taglines section */
+        .tagline-container ul {
+            list-style: none; 
+            padding: 0;
+            margin-top: 20px;
+        }
+        .tagline-container li {
+             font-size: 15px;
+            color: #e0e0e0; /* Make list items stand out */
+            margin-bottom: 8px; 
+        }
+
+        /* Styling for the warning banner (the safety notice) */
+        .disclaimer-text { 
+            font-size: 14px; 
+            color: #ffc107; /* Warning yellow/gold */
+            background: rgba(255, 193, 7, 0.1); /* Light semi-transparent background */
+            padding: 10px 20px; 
+            border-radius: 4px; 
+            display: inline-block; 
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Grid layout for the cards */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 16px; 
+            max-width: 900px; 
+            width: 100%; 
+            margin-bottom: 48px; 
+        }
+
+        .card { 
+            background: #1a2a3a; 
+            border: 1px solid #1e3a55; 
+            border-radius: 6px; 
+            padding: 24px; 
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+            transition: border-color 0.15s, background 0.15s; 
+            position: relative; 
+        }
+
+        /* Card hover effects */
+        .card:hover { 
+            border-color: #4a90d4; 
+            background: #1e3045; 
+        }
+
+        /* Text elements inside the card */
         .card .icon { font-size: 32px; margin-bottom: 14px; }
         .card h2 { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 6px; }
         .card p { font-size: 13px; color: #7a9ab8; line-height: 1.6; margin-bottom: 14px; }
         .card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .tag {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+        .tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        /* Tag colors */
         .tag-red { background: #3d1010; color: #e74c3c; }
         .tag-orange { background: #3d2210; color: #e67e22; }
         .tag-blue { background: #102040; color: #4a90d4; }
         .tag-yellow { background: #3d3410; color: #f1c40f; }
 
-        .card .arrow {
-            position: absolute;
-            top: 24px; right: 20px;
-            font-size: 18px;
-            color: #2a4a6a;
-            transition: color 0.15s, right 0.15s;
-        }
+        /* Arrow positioning */
+        .card .arrow { position: absolute; top: 24px; right: 20px; font-size: 18px; color: #2a4a6a; transition: color 0.15s, right 0.15s; }
         .card:hover .arrow { color: #4a90d4; right: 16px; }
 
-        .disclaimer {
-            max-width: 640px;
-            text-align: center;
-            font-size: 12px;
-            color: #3d5a73;
-            line-height: 1.7;
-            border-top: 1px solid #1e3a55;
-            padding-top: 24px;
-        }
+        /* The bottom disclaimer */
+        .disclaimer { max-width: 640px; text-align: center; font-size: 12px; color: #3d5a73; line-height: 1.7; border-top: 1px solid #1e3a55; padding-top: 24px; }
         .disclaimer strong { color: #4a7090; }
+
     </style>
 </head>
 <body>
+    <div class="logo">BrowserLab.au</div>
+    
+    <!-- ======================================== -->
+    <!-- START OF UPDATED TEXT CONTENT HERE         -->
+    <!-- ======================================== -->
+    <h1>Controlled Threat Simulation Center</h1>
+    
+    <div class="tagline-container">
+        <p>Designed for MSP clients: Hands-on exposure to modern, simulated cyber threats.</p>
+        
+        <p style="font-size: 15px; color: #4a90d4;">🔬 Our Library Provides:</p>
+        <ul style="list-style: none; margin-top: 20px;">
+            <li>• Phishing campaign layouts</li>
+            <li>• Credential harvesting structures</li>
+            <li>• Malware behavioral components</li>
+        </ul>
 
-<div class="logo">BrowserLab.au</div>
-<h1>Understanding the Adversary: Educational Simulations</h1>
-<p class="tagline">Our library provides MSP clients with hands-on exposure to modern cyber threats through controlled, simulated environments. We do not host live attacks; rather, we provide meticulously constructed and entirely synthetic examples of real-world threat vectors—including phishing campaign layouts, credential harvesting page structures, and malware components.
+        <!-- The critical safety warning -->
+        <div class="disclaimer-text">⚠️ ALL CONTENT IS SYNTHETIC AND FOR EDUCATIONAL DEMONSTRATION ONLY.</div>
+    </div>
+    <!-- ======================================== -->
+    <!-- END OF UPDATED TEXT CONTENT HERE           -->
+    <!-- ======================================== -->
 
-This dedicated resource allows your team to review the anatomy of an attack in a safe, non-live setting. By studying these demonstrations (hosted on GitHub), client teams can enhance their detection capabilities and improve readiness without any risk to live systems or data.</p>
+    <div class="grid">
+        <a class="card" href="/phishing/">
+            <span class="arrow">&#x2192;</span>
+            <div class="icon">&#x1F3A3;</div>
+            <h2>Phishing Page</h2>
+            <p>Fake Microsoft 365 login. Shows how attackers clone legitimate login pages to steal credentials.</p>
+            <div class="tags">
+                <span class="tag tag-red">Credential theft</span>
+                <span class="tag tag-orange">Lookalike domain</span>
+            </div>
+        </a>
+        <a class="card" href="/qr-phishing/">
+            <span class="arrow">&#x2192;</span>
+            <div class="icon">&#x1F4F7;</div>
+            <h2>QR Phishing (Quishing)</h2>
+            <p>QR code that encodes a phishing URL. Demonstrates how QR codes bypass email link filters.</p>
+            <div class="tags">
+                <span class="tag tag-red">Filter bypass</span>
+                <span class="tag tag-orange">Mobile threat</span>
+            </div>
+        </a>
+        <a class="card" href="/fake-support/">
+            <span class="arrow">&#x2192;</span>
+            <div class="icon">&#x1F6A8;</div>
+            <h2>Fake IT Support Scam</h2>
+            <p>Fake "Your computer is infected" page with virus alerts and a fake support phone number.</p>
+            <div class="tags">
+                <span class="tag tag-red">Tech support scam</span>
+                <span class="tag tag-yellow">Social engineering</span>
+            </div>
+        </a>
+        <a class="card" href="/insecure/">
+            <span class="arrow">&#x2192;</span>
+            <div class="icon">&#x1F513;</div>
+            <h2>Insecure Website (HTTP)</h2>
+            <p>Simulated browser chrome showing "Not Secure" warning, with side-by-side HTTP vs HTTPS comparison.</p>
+            <div class="tags">
+                <span class="tag tag-blue">No HTTPS</span>
+                <span class="tag tag-blue">Browser warning</span>
+            </div>
+        </a>
+        <a class="card" href="/ads/">
+            <span class="arrow">&#x2192;</span>
+            <div class="icon">&#x1F4E2;</div>
+            <h2>Ad-Heavy &amp; Deceptive Site</h2>
+            <p>Fake prize popups, countdown timers, misleading cookie consent, and clickbait content ads.</p>
+            <div class="tags">
+                <span class="tag tag-orange">Dark patterns</span>
+                <span class="tag tag-yellow">Fake prizes</span>
+            </div>
+        </a>
+    </div >
 
-<div class="grid">
-
-    <a class="card" href="/phishing/">
-        <span class="arrow">&#x2192;</span>
-        <div class="icon">&#x1F3A3;</div>
-        <h2>Phishing Page</h2>
-        <p>Fake Microsoft 365 login. Shows how attackers clone legitimate login pages to steal credentials.</p>
-        <div class="tags">
-            <span class="tag tag-red">Credential theft</span>
-            <span class="tag tag-orange">Lookalike domain</span>
-        </div>
-    </a>
-
-    <a class="card" href="/qr-phishing/">
-        <span class="arrow">&#x2192;</span>
-        <div class="icon">&#x1F4F7;</div>
-        <h2>QR Phishing (Quishing)</h2>
-        <p>QR code that encodes a phishing URL. Demonstrates how QR codes bypass email link filters.</p>
-        <div class="tags">
-            <span class="tag tag-red">Filter bypass</span>
-            <span class="tag tag-orange">Mobile threat</span>
-        </div>
-    </a>
-
-    <a class="card" href="/fake-support/">
-        <span class="arrow">&#x2192;</span>
-        <div class="icon">&#x1F6A8;</div>
-        <h2>Fake IT Support Scam</h2>
-        <p>Fake "Your computer is infected" page with virus alerts and a fake support phone number.</p>
-        <div class="tags">
-            <span class="tag tag-red">Tech support scam</span>
-            <span class="tag tag-yellow">Social engineering</span>
-        </div>
-    </a>
-
-    <a class="card" href="/insecure/">
-        <span class="arrow">&#x2192;</span>
-        <div class="icon">&#x1F513;</div>
-        <h2>Insecure Website (HTTP)</h2>
-        <p>Simulated browser chrome showing "Not Secure" warning, with side-by-side HTTP vs HTTPS comparison.</p>
-        <div class="tags">
-            <span class="tag tag-blue">No HTTPS</span>
-            <span class="tag tag-blue">Browser warning</span>
-        </div>
-    </a>
-
-    <a class="card" href="/ads/">
-        <span class="arrow">&#x2192;</span>
-        <div class="icon">&#x1F4E2;</div>
-        <h2>Ad-Heavy &amp; Deceptive Site</h2>
-        <p>Fake prize popups, countdown timers, misleading cookie consent, and clickbait content ads.</p>
-        <div class="tags">
-            <span class="tag tag-orange">Dark patterns</span>
-            <span class="tag tag-yellow">Fake prizes</span>
-        </div>
-    </a>
-
-</div>
-
-<div class="disclaimer">
-    <strong>Training use only.</strong> All pages are simulations. No credentials are captured. Phone numbers are fake. Demos are intended to help users recognise online threats — not to facilitate harm.
-</div>
-
+    <div class="disclaimer"> 
+        <strong>Training use only.</strong> All pages are simulations. No credentials are captured. Phone numbers are fake. Demos are intended to help users recognise online threats — not to facilitate harm. 
+    </div>
 </body>
 </html>
