@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Phishing Explained — Training Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 680px; width: 100%; }
+        .hook {
+            background: #c00;
+            padding: 28px 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hook .icon { font-size: 48px; margin-bottom: 12px; }
+        .hook h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .hook p { font-size: 16px; opacity: 0.9; }
+        .section {
+            background: #2a2a2a;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e67e22;
+        }
+        .section h2 { font-size: 16px; font-weight: 600; color: #e67e22; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section ul { list-style: none; padding: 0; }
+        .section ul li {
+            padding: 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-bottom: 1px solid #333;
+        }
+        .section ul li:last-child { border-bottom: none; }
+        .flag { color: #e74c3c; font-weight: 600; }
+        .good { color: #2ecc71; font-weight: 600; }
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .compare-box {
+            padding: 14px;
+            border-radius: 3px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .compare-bad { background: #3d1515; border: 1px solid #c00; }
+        .compare-good { background: #153d15; border: 1px solid #2ecc71; }
+        .compare-box .label { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .compare-bad .label { color: #e74c3c; }
+        .compare-good .label { color: #2ecc71; }
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e67e22;
+        }
+        .steps { counter-reset: step; }
+        .steps li {
+            counter-increment: step;
+            padding-left: 32px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0; top: 6px;
+            background: #e67e22;
+            color: #000;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .back { display: inline-block; margin-top: 24px; color: #aaa; text-decoration: none; font-size: 13px; }
+        .back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hook">
+        <div class="icon">&#x1F4F7;</div>
+        <h1>That QR code was a trap.</h1>
+        <p>Scanning it would have opened a fake login page on your phone — bypassing every email security filter in place. This is a training demo. No data was captured.</p>
+    </div>
+
+    <div class="section">
+        <h2>Why QR phishing works</h2>
+        <ul>
+            <li><span class="flag">Filters scan text, not images</span> — email security tools inspect URLs in message text; a QR code is just a picture to them</li>
+            <li><span class="flag">No hover preview on mobile</span> — on a desktop you can hover a link to see its destination; you can't do that with a QR code</li>
+            <li><span class="flag">Phones bypass corporate filters</span> — your laptop routes through company web filtering; your phone camera app does not</li>
+            <li><span class="flag">Looks professional</span> — QR codes appear in invoices, HR emails, parcel notices, posters, even printed on desks</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Common quishing scenarios</h2>
+        <div class="compare">
+            <div class="compare-box compare-bad">
+                <div class="label">Fake invoice email</div>
+                "Scan to view your invoice" — links to a fake Microsoft or DocuSign login
+            </div>
+            <div class="compare-box compare-bad">
+                <div class="label">Fake parcel notice</div>
+                "Scan to reschedule delivery" — links to a payment or credential-stealing page
+            </div>
+            <div class="compare-box compare-bad">
+                <div class="label">Printed desk drop</div>
+                Physical flyers left in offices: "Scan to claim your staff discount"
+            </div>
+            <div class="compare-box compare-bad">
+                <div class="label">Fake MFA prompt</div>
+                "Your authenticator needs updating — scan this QR to re-enroll"
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>What to do before scanning any QR code</h2>
+        <ul class="steps">
+            <li>Use a QR scanner that shows the URL <strong>before</strong> opening it — most phones now do this natively</li>
+            <li>Read the full domain carefully — <code>micros0ft.com</code> and <code>login-microsoft.net</code> are not Microsoft</li>
+            <li>Ask yourself: did I expect this QR code? Unsolicited QRs in emails are a red flag</li>
+            <li>If scanned and suspicious — close immediately, do not enter credentials, report to IT</li>
+        </ul>
+    </div>
+
+    <a href="/" class="back">&larr; Back to BrowserLab</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deceptive Ads Explained — Training Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 680px; width: 100%; }
+        .hook {
+            background: #c00;
+            padding: 28px 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hook .icon { font-size: 48px; margin-bottom: 12px; }
+        .hook h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .hook p { font-size: 16px; opacity: 0.9; }
+        .section {
+            background: #2a2a2a;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e67e22;
+        }
+        .section h2 { font-size: 16px; font-weight: 600; color: #e67e22; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section ul { list-style: none; padding: 0; }
+        .section ul li {
+            padding: 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-bottom: 1px solid #333;
+        }
+        .section ul li:last-child { border-bottom: none; }
+        .flag { color: #e74c3c; font-weight: 600; }
+        .good { color: #2ecc71; font-weight: 600; }
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e67e22;
+        }
+        .steps { counter-reset: step; }
+        .steps li {
+            counter-increment: step;
+            padding-left: 32px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0; top: 6px;
+            background: #e67e22;
+            color: #000;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .back { display: inline-block; margin-top: 24px; color: #aaa; text-decoration: none; font-size: 13px; }
+        .back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hook">
+        <div class="icon">&#x1F4E2;</div>
+        <h1>That site was designed to manipulate you.</h1>
+        <p>Every element — the popup, the countdown, the cookie banner, the ads — was engineered to get you to click something you didn't intend to. This is a training demo.</p>
+    </div>
+
+    <div class="section">
+        <h2>Dark patterns you saw on that page</h2>
+        <ul>
+            <li><span class="flag">Prize popup</span> — "1,000,000th visitor" prizes are always fake. They either install malware, steal your details, or charge a "shipping fee" on a product that never arrives</li>
+            <li><span class="flag">Countdown timer</span> — the timer resets every page load. The urgency is completely manufactured</li>
+            <li><span class="flag">Fake virus warning in an ad</span> — browsers cannot detect viruses. Any ad claiming your PC is infected is lying to get you to install something</li>
+            <li><span class="flag">Misleading cookie consent</span> — "Accept All" is large and blue; "Reject" is tiny, grey, and uses guilt language ("limited experience"). This is an illegal dark pattern in the EU</li>
+            <li><span class="flag">Accepting cookies triggered another popup</span> — rewarding consent with more intrusion is a deliberate dark pattern</li>
+            <li><span class="flag">Clickbait recommended content</span> — "Doctors HATE this" and "This $9 trick" are scam signals. Clicking leads to fake health products, investment scams, or malware downloads</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Why "your PC has a virus" ads are always fake</h2>
+        <ul>
+            <li>A webpage has no access to your filesystem — it cannot scan for viruses</li>
+            <li>Real antivirus alerts appear as system notifications or inside the antivirus app — never in a browser tab</li>
+            <li>Clicking these ads installs fake "cleaners" that are often the actual malware</li>
+            <li>Legitimate security software never advertises through web banners</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Protecting yourself on ad-heavy sites</h2>
+        <ul class="steps">
+            <li>Install a browser ad blocker (uBlock Origin is free and effective) — blocks most malicious ads before they load</li>
+            <li>Never click popup prizes, countdown offers, or "you've been selected" banners</li>
+            <li>On cookie banners — look for "Reject All" or "Manage Preferences"; don't click "Accept All" by default</li>
+            <li>If an ad claims your PC is infected — close the tab, do not click anything inside it</li>
+            <li>Treat "Recommended for you" content sections as ads — they are paid placements, not editorial recommendations</li>
+        </ul>
+    </div>
+
+    <a href="/" class="back">&larr; Back to BrowserLab</a>
+</div>
+</body>
+</html>

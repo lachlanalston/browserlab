@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insecure Website Explained — Training Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 680px; width: 100%; }
+        .hook {
+            background: #c00;
+            padding: 28px 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hook .icon { font-size: 48px; margin-bottom: 12px; }
+        .hook h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .hook p { font-size: 16px; opacity: 0.9; }
+        .section {
+            background: #2a2a2a;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e67e22;
+        }
+        .section h2 { font-size: 16px; font-weight: 600; color: #e67e22; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section ul { list-style: none; padding: 0; }
+        .section ul li {
+            padding: 6px 0;
+            font-size: 14px;
+            line-height: 1.6;
+            border-bottom: 1px solid #333;
+        }
+        .section ul li:last-child { border-bottom: none; }
+        .flag { color: #e74c3c; font-weight: 600; }
+        .good { color: #2ecc71; font-weight: 600; }
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .compare-box {
+            padding: 14px;
+            border-radius: 3px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .compare-bad { background: #3d1515; border: 1px solid #c00; }
+        .compare-good { background: #153d15; border: 1px solid #2ecc71; }
+        .compare-box .label { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .compare-bad .label { color: #e74c3c; }
+        .compare-good .label { color: #2ecc71; }
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e67e22;
+        }
+        .steps { counter-reset: step; }
+        .steps li {
+            counter-increment: step;
+            padding-left: 32px;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0; top: 6px;
+            background: #e67e22;
+            color: #000;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 11px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .back { display: inline-block; margin-top: 24px; color: #aaa; text-decoration: none; font-size: 13px; }
+        .back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hook">
+        <div class="icon">&#x1F513;</div>
+        <h1>That site was not secure.</h1>
+        <p>Any credentials or data entered on an HTTP page travel across the internet as plain, readable text — visible to anyone on the same network. This is a training demo.</p>
+    </div>
+
+    <div class="section">
+        <h2>HTTP vs HTTPS — what the difference means</h2>
+        <div class="compare">
+            <div class="compare-box compare-bad">
+                <div class="label">HTTP — insecure</div>
+                Data sent as plain text. Anyone between you and the server can read it: your ISP, the cafe Wi-Fi router, a corporate proxy, or an attacker on the same network.
+            </div>
+            <div class="compare-box compare-good">
+                <div class="label">HTTPS — secure</div>
+                Data encrypted end-to-end using TLS. Even if intercepted, it's unreadable. Certificate also proves the server is who it claims to be.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Red flags to check in your browser</h2>
+        <ul>
+            <li><span class="flag">"Not Secure" in the address bar</span> — Chrome, Edge, and Firefox all show this for HTTP sites</li>
+            <li><span class="flag">No padlock icon</span> — HTTPS sites show a padlock (or just the domain in newer browsers); HTTP shows a warning triangle</li>
+            <li><span class="flag">URL starts with http://</span> — secure sites always use <code>https://</code></li>
+            <li><span class="flag">Login or payment form on HTTP</span> — no legitimate bank, email provider, or shopping site uses HTTP for login pages</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>What an attacker can do on HTTP</h2>
+        <ul>
+            <li>Read your username and password as you type them</li>
+            <li>Modify the page content before it reaches you — injecting fake forms or malware</li>
+            <li>Redirect you to a completely different page without you noticing</li>
+            <li>Capture session cookies to impersonate you after you log in</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>What to do</h2>
+        <ul class="steps">
+            <li>Always check for <code>https://</code> before entering any credentials or payment details</li>
+            <li>If you see "Not Secure" on a login page — close it immediately and report the link to IT</li>
+            <li>On public Wi-Fi — treat all HTTP traffic as compromised; use a VPN</li>
+            <li>If you entered credentials on HTTP — change that password immediately from a secure network</li>
+        </ul>
+    </div>
+
+    <a href="/" class="back">&larr; Back to BrowserLab</a>
+</div>
+</body>
+</html>

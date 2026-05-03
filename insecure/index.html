@@ -279,49 +279,11 @@
     </div>
 </div>
 
-<!-- Explainer points -->
-<div class="explainer">
-    <h2>Why this matters</h2>
-
-    <div class="point">
-        <h3>No encryption in transit</h3>
-        <p>HTTP sends all data as plain text. Anyone on the same network (cafe Wi-Fi, hotel, corporate proxy) can read your username, password, and everything you submit.</p>
-    </div>
-
-    <div class="point">
-        <h3>No identity verification</h3>
-        <p>HTTPS certificates prove the server is who it claims to be. HTTP has no certificate — the "bank" site you're talking to could be anyone.</p>
-    </div>
-
-    <div class="point">
-        <h3>Attackers intercept easily</h3>
-        <p>On HTTP, a man-in-the-middle can silently modify page content — injecting fake forms, malware, or changing where your form submits.</p>
-    </div>
-
-    <div class="point good">
-        <h3>What to do</h3>
-        <p>If a site shows "Not Secure" — especially on a login or payment page — do not enter any credentials. Check the URL: legitimate services always use <code style="background:#0d1f2d; padding:1px 5px; border-radius:2px; color:#81c995;">https://</code></p>
-    </div>
-</div>
-
-<p style="margin-top:32px; font-size:12px; color:#3d5a73; text-align:center;">
-    <a href="/" style="color:#4a7090; text-decoration:none;">&larr; Back to BrowserLab</a>
-</p>
-
-<button id="training-btn" onclick="document.getElementById('training-overlay').classList.add('show')" title="Training info">?</button>
-
-<div id="training-overlay">
-    <div class="training-box">
-        <h2>Training Demo — Insecure Website (HTTP)</h2>
-        <p style="font-size:14px; margin-bottom:8px;"><strong>This page simulates what an HTTP-only (insecure) website looks like in your browser.</strong> Key takeaways:</p>
-        <ul>
-            <li><strong>"Not Secure"</strong> appears in Chrome/Edge/Firefox address bar for all HTTP sites</li>
-            <li><strong>Padlock icon absent</strong> — HTTPS sites show a padlock (or just the domain in newer browsers)</li>
-            <li><strong>Never login on HTTP</strong> — credentials travel unencrypted across every network hop</li>
-            <li><strong>HTTP ≠ fake</strong> — some real sites use HTTP, but none should ask for passwords</li>
-        </ul>
-        <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close</button>
-    </div>
+<div style="text-align:center; margin-top: 32px;">
+    <a href="caught.html" style="display:inline-block; background:#c00; color:#fff; padding:14px 32px; text-decoration:none; font-size:15px; font-weight:600; border-radius:3px;">Why this is dangerous &rarr;</a>
+    <p style="margin-top:16px; font-size:12px; color:#3d5a73;">
+        <a href="/" style="color:#4a7090; text-decoration:none;">&larr; Back to BrowserLab</a>
+    </p>
 </div>
 
 </body>

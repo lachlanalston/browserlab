@@ -246,8 +246,8 @@
             <li><strong>Fix:</strong> Close the browser tab. Press F11 to exit fullscreen if stuck. Run a real scan via Windows Security (the built-in app)</li>
         </ul>
         <div class="dismiss-row">
-            <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close overlay</button>
-            <button class="dismiss-demo-btn" onclick="window.location.href='/'">Exit demo</button>
+            <button class="close-btn" onclick="window.location.href='caught.html'">See full breakdown &rarr;</button>
+            <button class="dismiss-demo-btn" onclick="window.location.href='/'">Back to BrowserLab</button>
         </div>
     </div>
 </div>
@@ -272,7 +272,7 @@
     document.addEventListener('keydown', e => {
         if ((e.key === 'F5') || (e.ctrlKey && e.key === 'r')) e.preventDefault();
         if (e.key === 'Escape' || e.key === 'F11') {
-            document.getElementById('training-overlay').classList.add('show');
+            window.location.href = 'caught.html';
         }
     });
 </script>
