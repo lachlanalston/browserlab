@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner — Secure Document Portal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0f2b4a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .logo-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #1976d2;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .logo-text { font-size: 20px; font-weight: 600; color: #fff; }
+        .card {
+            background: #1a3a5c;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+        .subtitle {
+            font-size: 14px;
+            color: #8ab4d4;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        #qrcode {
+            display: inline-block;
+            background: #fff;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+        #qrcode canvas { display: block; }
+        .instruction {
+            font-size: 14px;
+            color: #8ab4d4;
+            margin-bottom: 24px;
+        }
+        .reveal-btn {
+            background: transparent;
+            border: 1px solid #4a90d4;
+            color: #4a90d4;
+            padding: 10px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .reveal-btn:hover { background: #4a90d4; color: #fff; }
+        #url-reveal {
+            display: none;
+            margin-top: 20px;
+            background: #c0392b22;
+            border: 1px solid #c0392b;
+            border-radius: 4px;
+            padding: 16px;
+            text-align: left;
+        }
+        #url-reveal.show { display: block; }
+        #url-reveal .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #e74c3c; font-weight: 700; margin-bottom: 6px; }
+        #url-reveal code {
+            display: block;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #e67e22;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+        #url-reveal p { font-size: 13px; color: #ccc; line-height: 1.6; }
+
+        /* Training button */
+        #training-btn {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+        #training-btn:hover { opacity: 1; }
+        #training-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        #training-overlay.show { display: flex; }
+        .training-box {
+            background: #fff;
+            color: #1a1a1a;
+            padding: 36px;
+            max-width: 560px;
+            width: 90%;
+            border-radius: 4px;
+        }
+        .training-box h2 { color: #c00; margin-bottom: 16px; font-size: 20px; }
+        .training-box ul { margin: 12px 0 20px 20px; line-height: 2; font-size: 14px; }
+        .training-box .close-btn {
+            background: #0067b8;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo-bar">
+    <div class="logo-icon">&#x1F4C4;</div>
+    <div class="logo-text">SecureDoc Portal</div>
+</div>
+
+<div class="card">
+    <h1>Access Shared Document</h1>
+    <p class="subtitle">Scan the QR code below with your phone to access the document shared with you. Verify your identity to proceed.</p>
+
+    <div id="qrcode"></div>
+
+    <p class="instruction">Point your phone camera at this QR code</p>
+
+    <button class="reveal-btn" onclick="revealUrl()">Reveal where this goes</button>
+
+    <div id="url-reveal">
+        <div class="label">This QR code encodes:</div>
+        <code>https://browserlab.au/phishing/</code>
+        <p>Scanning this would open a fake Microsoft login page. Attackers use QR codes because email security tools scan text links — not images. Your phone scans the image and opens the URL without any filtering.</p>
+    </div>
+</div>
+
+<button id="training-btn" onclick="document.getElementById('training-overlay').classList.add('show')" title="Training info">?</button>
+
+<div id="training-overlay">
+    <div class="training-box">
+        <h2>Training Demo — QR Phishing (Quishing)</h2>
+        <p style="font-size:14px; margin-bottom:8px;"><strong>This is a QR phishing ("quishing") demo.</strong> The QR code above encodes a phishing URL. Here's why it's dangerous:</p>
+        <ul>
+            <li><strong>Bypasses email filters</strong> — filters scan text links, not images</li>
+            <li><strong>No hover preview</strong> — you can't hover a QR code to see where it goes</li>
+            <li><strong>Mobile = fewer defenses</strong> — phones lack corporate web filtering</li>
+            <li><strong>Looks legitimate</strong> — can be printed on fake invoices, posters, desk drops</li>
+            <li><strong>Fix:</strong> Use a QR scanner that shows URL before opening, then check domain carefully</li>
+        </ul>
+        <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+    QRCode.toCanvas(document.createElement('canvas'), 'https://browserlab.au/phishing/', {
+        width: 200,
+        color: { dark: '#000000', light: '#ffffff' }
+    }, function (err, canvas) {
+        if (!err) document.getElementById('qrcode').appendChild(canvas);
+    });
+
+    function revealUrl() {
+        document.getElementById('url-reveal').classList.add('show');
+        document.querySelector('.reveal-btn').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
