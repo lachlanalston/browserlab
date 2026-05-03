@@ -185,11 +185,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-    QRCode.toCanvas(document.createElement('canvas'), 'https://browserlab.au/phishing/', {
-        width: 200,
+    QRCode.toDataURL('https://browserlab.au/phishing/', {
+        width: 220,
+        margin: 2,
         color: { dark: '#000000', light: '#ffffff' }
-    }, function (err, canvas) {
-        if (!err) document.getElementById('qrcode').appendChild(canvas);
+    }, function(err, url) {
+        if (err) { console.error(err); return; }
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'QR Code';
+        img.style.display = 'block';
+        img.width = 220;
+        img.height = 220;
+        document.getElementById('qrcode').appendChild(img);
     });
 
     function revealUrl() {
