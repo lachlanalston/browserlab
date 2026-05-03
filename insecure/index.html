@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insecure Website Demo — BrowserLab</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        h1 { font-size: 22px; color: #fff; margin-bottom: 6px; text-align: center; }
+        .sub { font-size: 14px; color: #7a9ab8; margin-bottom: 40px; text-align: center; }
+
+        /* Fake browser chrome */
+        .browser-wrap {
+            width: 100%;
+            max-width: 720px;
+            margin-bottom: 40px;
+        }
+        .browser-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4a7090;
+            margin-bottom: 8px;
+        }
+
+        .browser {
+            border-radius: 8px 8px 6px 6px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Title bar */
+        .browser-titlebar {
+            background: #2d2d2d;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-r { background: #ff5f57; }
+        .dot-y { background: #febc2e; }
+        .dot-g { background: #28c840; }
+
+        /* Address bar */
+        .browser-addressbar {
+            background: #323232;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .not-secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #3a1a1a;
+            border: 1px solid #7a2020;
+            border-radius: 3px;
+            padding: 3px 8px;
+            font-size: 12px;
+            color: #e57373;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .not-secure-badge .lock-icon { font-size: 13px; }
+        .url-bar {
+            flex: 1;
+            background: #1e1e1e;
+            border-radius: 3px;
+            padding: 4px 10px;
+            font-size: 13px;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+        }
+        .url-bar .http { color: #e57373; font-weight: bold; }
+        .url-bar .domain { color: #fff; }
+        .url-bar .path { color: #888; }
+
+        /* Browser content */
+        .browser-content {
+            background: #fff;
+            color: #333;
+            padding: 28px 32px;
+            min-height: 280px;
+        }
+        .browser-content h2 { font-size: 22px; color: #1a1a1a; margin-bottom: 10px; }
+        .browser-content p { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 14px; }
+        .fake-form { margin-top: 20px; }
+        .fake-form label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #333; }
+        .fake-form input {
+            width: 100%;
+            max-width: 340px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .fake-form button {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 9px 22px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        /* Comparison section */
+        .compare-wrap {
+            width: 100%;
+            max-width: 720px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .compare-browser { border-radius: 8px 8px 6px 6px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .compare-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #4a7090; margin-bottom: 8px; }
+
+        /* Secure badge */
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-radius: 3px;
+            padding: 3px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            font-weight: 600;
+            color: #aaa;
+        }
+
+        /* Explainer */
+        .explainer {
+            width: 100%;
+            max-width: 720px;
+        }
+        .explainer h2 { font-size: 17px; color: #fff; margin-bottom: 16px; }
+        .point {
+            background: #1e2d3d;
+            border-left: 3px solid #e57373;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+        .point.good { border-left-color: #66bb6a; }
+        .point h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #e57373; }
+        .point.good h3 { color: #66bb6a; }
+        .point p { font-size: 13px; color: #8ab4cc; line-height: 1.6; }
+
+        /* Training button */
+        #training-btn {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+        #training-btn:hover { opacity: 1; }
+        #training-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        #training-overlay.show { display: flex; }
+        .training-box {
+            background: #fff;
+            color: #1a1a1a;
+            padding: 36px;
+            max-width: 520px;
+            width: 90%;
+            border-radius: 4px;
+        }
+        .training-box h2 { color: #c00; margin-bottom: 16px; font-size: 20px; }
+        .training-box ul { margin: 12px 0 20px 20px; line-height: 2; font-size: 14px; }
+        .training-box .close-btn {
+            background: #0067b8; color: #fff; border: none;
+            padding: 8px 20px; cursor: pointer; font-size: 14px;
+        }
+
+        @media (max-width: 560px) {
+            .compare-wrap { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Insecure Website Demo</h1>
+<p class="sub">What your browser shows when a site uses HTTP instead of HTTPS</p>
+
+<!-- Fake browser — insecure -->
+<div class="browser-wrap">
+    <div class="browser-label">Insecure site (HTTP)</div>
+    <div class="browser">
+        <div class="browser-titlebar">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+        </div>
+        <div class="browser-addressbar">
+            <div class="not-secure-badge">
+                <span class="lock-icon">&#x26A0;</span>
+                Not secure
+            </div>
+            <div class="url-bar">
+                <span class="http">http://</span><span class="domain">my-bank-login.net</span><span class="path">/account</span>
+            </div>
+        </div>
+        <div class="browser-content">
+            <h2>Online Banking Portal</h2>
+            <p>Sign in to manage your account.</p>
+            <div class="fake-form">
+                <label>Username</label>
+                <input type="text" placeholder="your@email.com" disabled>
+                <label>Password</label>
+                <input type="password" placeholder="••••••••" disabled>
+                <button type="button" onclick="return false;">Sign In</button>
+            </div>
+            <p style="font-size:12px; color:#999; margin-top:14px;">Fields are disabled — this is a visual demo only.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Side-by-side comparison -->
+<div class="compare-wrap">
+    <div>
+        <div class="compare-title">Insecure — what you see</div>
+        <div class="compare-browser">
+            <div class="browser-titlebar">
+                <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            </div>
+            <div class="browser-addressbar">
+                <div class="not-secure-badge"><span>&#x26A0;</span> Not secure</div>
+                <div class="url-bar" style="font-size:12px;">
+                    <span class="http">http://</span><span class="domain">example.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="compare-title">Secure — what you want to see</div>
+        <div class="compare-browser">
+            <div class="browser-titlebar">
+                <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            </div>
+            <div class="browser-addressbar">
+                <div class="secure-badge"><span>&#x1F512;</span></div>
+                <div class="url-bar" style="font-size:12px;">
+                    <span style="color:#81c995;">https://</span><span class="domain">example.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Explainer points -->
+<div class="explainer">
+    <h2>Why this matters</h2>
+
+    <div class="point">
+        <h3>No encryption in transit</h3>
+        <p>HTTP sends all data as plain text. Anyone on the same network (cafe Wi-Fi, hotel, corporate proxy) can read your username, password, and everything you submit.</p>
+    </div>
+
+    <div class="point">
+        <h3>No identity verification</h3>
+        <p>HTTPS certificates prove the server is who it claims to be. HTTP has no certificate — the "bank" site you're talking to could be anyone.</p>
+    </div>
+
+    <div class="point">
+        <h3>Attackers intercept easily</h3>
+        <p>On HTTP, a man-in-the-middle can silently modify page content — injecting fake forms, malware, or changing where your form submits.</p>
+    </div>
+
+    <div class="point good">
+        <h3>What to do</h3>
+        <p>If a site shows "Not Secure" — especially on a login or payment page — do not enter any credentials. Check the URL: legitimate services always use <code style="background:#0d1f2d; padding:1px 5px; border-radius:2px; color:#81c995;">https://</code></p>
+    </div>
+</div>
+
+<p style="margin-top:32px; font-size:12px; color:#3d5a73; text-align:center;">
+    <a href="/" style="color:#4a7090; text-decoration:none;">&larr; Back to BrowserLab</a>
+</p>
+
+<button id="training-btn" onclick="document.getElementById('training-overlay').classList.add('show')" title="Training info">?</button>
+
+<div id="training-overlay">
+    <div class="training-box">
+        <h2>Training Demo — Insecure Website (HTTP)</h2>
+        <p style="font-size:14px; margin-bottom:8px;"><strong>This page simulates what an HTTP-only (insecure) website looks like in your browser.</strong> Key takeaways:</p>
+        <ul>
+            <li><strong>"Not Secure"</strong> appears in Chrome/Edge/Firefox address bar for all HTTP sites</li>
+            <li><strong>Padlock icon absent</strong> — HTTPS sites show a padlock (or just the domain in newer browsers)</li>
+            <li><strong>Never login on HTTP</strong> — credentials travel unencrypted across every network hop</li>
+            <li><strong>HTTP ≠ fake</strong> — some real sites use HTTP, but none should ask for passwords</li>
+        </ul>
+        <button class="close-btn" onclick="document.getElementById('training-overlay').classList.remove('show')">Close</button>
+    </div>
+</div>
+
+</body>
+</html>

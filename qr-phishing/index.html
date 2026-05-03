@@ -153,7 +153,9 @@
     <h1>Access Shared Document</h1>
     <p class="subtitle">Scan the QR code below with your phone to access the document shared with you. Verify your identity to proceed.</p>
 
-    <div id="qrcode"></div>
+    <div id="qrcode">
+        <img src="https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=https%3A%2F%2Fbrowserlab.au%2Fphishing%2F&choe=UTF-8&chld=H%7C2" alt="QR Code" width="220" height="220">
+    </div>
 
     <p class="instruction">Point your phone camera at this QR code</p>
 
@@ -183,23 +185,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-    QRCode.toDataURL('https://browserlab.au/phishing/', {
-        width: 220,
-        margin: 2,
-        color: { dark: '#000000', light: '#ffffff' }
-    }, function(err, url) {
-        if (err) { console.error(err); return; }
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = 'QR Code';
-        img.style.display = 'block';
-        img.width = 220;
-        img.height = 220;
-        document.getElementById('qrcode').appendChild(img);
-    });
-
     function revealUrl() {
         document.getElementById('url-reveal').classList.add('show');
         document.querySelector('.reveal-btn').style.display = 'none';
